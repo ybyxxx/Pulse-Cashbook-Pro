@@ -1,0 +1,15 @@
+# 构建产物
+build/
+test/out/
+*.apk
+*.idsig
+
+# 签名密钥（build.sh 首次运行会自动生成调试签名）
+*.keystore
+*.jks
+
+# 系统 / IDE
+.DS_Store
+Thumbs.db
+.idea/
+*.iml

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pulse 账本 Pro</string>
+    <string name="add_order">记一笔</string>
+    <string name="save">保存</string>
+    <string name="delete">删除</string>
+    <string name="cancel">取消</string>
+    <string name="edit_order">编辑订单</string>
+    <string name="new_order">记一笔</string>
+    <string name="label_date">日期</string>
+    <string name="label_amount">金额</string>
+    <string name="label_note">备注</string>
+    <string name="hint_note">例如：午餐、超市购物…</string>
+    <string name="hint_amount">0.00</string>
+    <string name="label_currency">币种</string>
+    <string name="section_pay">支付方式（单选 · Apple Pay / 云闪付QR 自动 +2%）</string>
+    <string name="pay_apple">Apple Pay（+2%）</string>
+    <string name="pay_unionqr">云闪付 QR 扫码（+2%）</string>
+    <string name="pay_alipaywechat">支付宝 / 微信（不计迎新签账）</string>
+    <string name="pay_jump_union">跳转云闪付（确认后 +2%）</string>
+    <string name="pay_online_card">在线支付 / 实体卡</string>
+    <string name="cb_pay_confirmed">已自行确认：此笔跳转云闪付可享 +2%</string>
+    <string name="label_refund">退款金额（部分退款）</string>
+    <string name="hint_refund">0.00（无退款可留空）</string>
+    <string name="refund_invalid">退款金额不能大于订单金额</string>
+    <string name="undo">撤销</string>
+    <string name="deleted_undo">已删除 1 笔</string>
+    <string name="section_tag">类别标记</string>
+    <string name="cb_dining">餐饮类（满额后额外 3%）</string>
+    <string name="section_cashback">预计返现</string>
+    <string name="section_attachments">附件截图</string>
+    <string name="add_attachment">＋ 添加截图</string>
+    <string name="month_spend">本月消费</string>
+    <string name="month_cashback">本月预计返现</string>
+    <string name="threshold_progress">满 1200 餐饮加码</string>
+    <string name="threshold_met">已达标 · 餐饮 +3% 生效中</string>
+    <string name="empty_list">还没有记录，点下方「记一笔」开始</string>
+    <string name="confirm_delete_title">删除订单</string>
+    <string name="confirm_delete_msg">确定删除这笔订单吗？附件也会一并删除。</string>
+    <string name="saved">已保存</string>
+    <string name="deleted">已删除</string>
+    <string name="need_amount">请输入金额</string>
+    <string name="attachments_hint">点击截图可查看大图，长按可删除</string>
+    <string name="back">返回</string>
+    <string name="base_rate">基础返现 0.4%</string>
+
+    <!-- 设置 -->
+    <string name="settings_title">设置</string>
+    <string name="settings_theme">主题颜色</string>
+    <string name="settings_card">卡片信息备份</string>
+    <string name="settings_card_sub">录入卡号 / 有效期 / CVV，指纹验证后查看</string>
+    <string name="settings_cards">卡片管理</string>
+    <string name="settings_cards_sub">多卡记账：新增、切换、设置下卡日期</string>
+    <string name="cards_title">卡片管理</string>
+    <string name="cards_hint">点击切换当前卡；长按可重命名、设置下卡日期或删除</string>
+    <string name="cards_add">＋ 新增卡片</string>
+    <string name="cards_rename">重命名</string>
+    <string name="cards_set_issue">设置下卡日期</string>
+    <string name="cards_delete">删除卡片</string>
+    <string name="cards_deleted">已删除卡片</string>
+    <string name="cards_issue_saved">下卡日期已保存</string>
+    <string name="cards_keep_one">至少要保留一张卡片</string>
+    <string name="cards_name_required">请输入卡片名称</string>
+    <string name="cards_name_hint">卡片名称，如 Pulse 主卡</string>
+    <string name="cards_issue_unset">下卡日期：未设置（点击选择）</string>
+    <string name="settings_welcome">迎新活动模式</string>
+    <string name="settings_welcome_sub">按下卡日期追踪首 60 日迎新奖赏进度</string>
+    <string name="settings_about">关于</string>
+    <string name="settings_rules">返现规则</string>
+    <string name="settings_rules_sub">活动费率与额度由服务端下发，可手动检查更新</string>
+    <string name="rules_check">检查更新</string>
+    <string name="rules_set_url">修改规则地址</string>
+    <string name="rules_checking">正在检查规则更新…</string>
+    <string name="rules_url_invalid">规则地址需以 https:// 开头</string>
+    <string name="rules_url_hint">https://…/rules.json</string>
+    <string name="settings_export">导出数据</string>    <string name="settings_export_sub">导出当前卡片全部账单为 CSV / JSON</string>
+    <string name="export_chooser_title">选择导出格式</string>
+    <string name="export_csv">CSV 表格（Excel / WPS 可打开）</string>
+    <string name="export_json">JSON 备份（含返现分项与汇总）</string>
+    <string name="export_done">已导出 %1$d 笔账单</string>
+    <string name="export_failed">导出失败：%1$s</string>
+    <string name="export_empty">还没有可导出的账单</string>
+    <string name="theme_picker_title">选择主题颜色</string>
+
+    <!-- 关于 -->
+    <string name="about_version">版本 2.1.1（build 22）· Pro 分支</string>
+    <string name="about_intro_title">应用简介</string>
+    <string name="about_intro">汇丰 Pulse 信用卡返现记账工具（Pro 分支）。在主线版本基础上支持多卡片独立记账，并新增账单导出。记录每笔消费的金额、支付方式与截图附件，自动估算可享返现，帮助你掌握当月消费进度与奖励加成。所有数据仅保存在本机，无需联网。</string>
+    <string name="about_features_title">主要功能</string>
+    <string name="about_features">· 多卡片记账：每张卡独立的账单、迎新窗口与年度额度，主页一键切换\n· 规则服务端下发：活动费率、额度、有效期由服务端规则决定，新增活动无需更新 App\n· 账单导出：CSV 表格（Excel / WPS 打开）与 JSON 备份，走系统文件选择器免权限\n· 订单记账：备注、金额（HKD / CNY 1:1）、截图附件、部分退款\n· 返现自动计算：基础返现 + 各项活动加成（含年度/月度额度）\n· 返现明细图表：构成环图、每日返现柱状图\n· 当月消费与返现统计、餐饮门槛进度\n· 快捷选择按钮（美团 / 拼多多 / 自定义）\n· 卡片信息加密备份（指纹保护）</string>
+    <string name="about_changelog_title">更新日志</string>
+    <string name="changelog_collapsed">展开 ▾</string>
+    <string name="changelog_expanded">收起 ▴</string>
+    <string name="about_changelog">v2.1.1\n· 默认规则地址指向项目仓库的 rules.json，安装后自动同步最新活动\n· 同步失败或规则非法时自动沿用缓存/内置规则，不影响记账\n\nv2.1.0\n· 返现规则改为服务端下发：费率、额度、有效期全部由规则文件决定，新增活动无需更新 App\n· 支持提前下发未开始的活动：到期自动生效，过期自动失效\n· 内置默认规则兜底：断网、首次启动时照常计算\n· 设置页新增「返现规则」：查看规则版本与来源、手动检查更新\n· 更新日志改为点击展开\n· 修复 v1.5.0 条目未换行的问题\n\nv2.0.0（Pro 分支）\n· 多卡片支持：新增卡片管理（新增 / 重命名 / 下卡日期 / 删除），每卡独立账单与额度\n· 新增账单导出：CSV 表格与 JSON 备份，免存储权限\n· 性能优化：年度返现批量计算加缓存，统计不再重复计算；查询跳过不必要的附件读取\n· 修复卡片信息备份中 CVV 与有效期回填位置颠倒的问题\n\nv1.5.0\n· 返现规则：赏世界限前 100,000 元消费（最高 $2,000），支付加成限前 80,000 元消费\n· 支付宝/微信默认不参与赏世界，可自行确认\n· 记一笔界面标题真正居中\n· 备注框下方快捷按钮（美团、拼多多、自定义）\n· 关于页新增更新日志\n\nv1.4.3\n· 修复未滑动误触删除按钮的问题\n\nv1.4.2\n· 修复列表行圆角漏出删除按钮红角\n· 修复滑动时误弹删除确认弹窗\n· 修复明细页条形图显示异常（改回环形图）\n\nv1.4.1\n· 明细页顶部留白修复\n· 构成图改用高对比配色\n· 滑动删除改自右向左滑出按钮\n· 迎新进度条优化\n\nv1.4.0\n· 支付方式合并为 5 项\n· 微信支付宝不计入迎新签账\n· 部分退款功能\n· 滑动删除 + 撤销\n· 迎新详情美化\n· 返现明细页（环图 + 柱图）\n\nv1.3.1\n· 迎新规则修正：基础 8,000 返 $800，28 次 QR 加码叠加\n\nv1.3.0\n· 主列表按日归类显示\n· 下卡日期录入\n· 迎新活动 60 日窗口追踪\n\nv1.2.1\n· 修复主题多选 bug\n· 修复小米/澎湃OS 指纹界面闪退\n\nv1.2.0\n· 月份选择器\n· 设置页（主题颜色、关于）\n· 卡片信息备份（指纹保护）\n\nv1.1.0\n· 支付方式 7 选 1\n· 赏世界年度全局开关\n· 默认 CNY\n\nv1.0.0\n· 基础记账、返现计算、月度统计</string>
+    <string name="about_disclaimer_title">免责声明</string>
+    <string name="about_disclaimer">本工具所示返现金额为估算值，具体以银行实际入账为准。卡片信息使用系统密钥库加密后仅存于本机，不上传任何服务器；请勿在越狱/ROOT 设备上存储敏感信息。开发者不对因使用本工具产生的任何损失负责。</string>
+    <string name="about_meta">开发者信息：待完善\n反馈与建议：待完善\n© 2026 Pulse 账本 Pro（分支版本）</string>
+
+    <!-- 卡片信息 -->
+    <string name="card_locked_title">卡片信息已锁定</string>
+    <string name="card_locked_sub">为保护你的敏感信息，进入前请验证指纹\n（未设指纹时可使用锁屏密码）</string>
+    <string name="card_auth">验证指纹</string>
+    <string name="card_auth_fallback">指纹不可用？改用锁屏密码验证</string>
+    <string name="card_auth_title">身份验证</string>
+    <string name="card_auth_subtitle">验证指纹以查看卡片信息</string>
+    <string name="card_auth_cancel">取消</string>
+    <string name="card_auth_failed">验证未通过，请重试</string>
+    <string name="card_auth_unsupported">设备不支持指纹验证，请使用锁屏密码</string>
+    <string name="card_number">卡号</string>
+    <string name="card_number_hint">0000 0000 0000 0000</string>
+    <string name="card_issue_date">下卡日期</string>
+    <string name="card_issue_date_hint">点击选择下卡日期（迎新 60 日由此起算）</string>
+    <string name="card_exp">有效期</string>
+    <string name="card_exp_hint">MM/YY</string>
+    <string name="card_cvv">CVV</string>
+    <string name="card_cvv_hint">•••</string>
+    <string name="card_clear">清除</string>
+    <string name="card_clear_msg">确定清除已保存的卡片信息吗？</string>
+    <string name="card_security_note">安全提示：卡号、有效期与 CVV 经系统密钥库（Android Keystore）加密后仅存储在本机应用私有空间，不会上传或备份到云端。</string>
+    <string name="card_saved">卡片信息已加密保存</string>
+    <string name="card_cleared">已清除</string>
+
+    <!-- 返现明细页 -->
+    <string name="cb_detail_title">返现明细</string>
+    <string name="cb_detail_total">预计返现合计</string>
+    <string name="cb_detail_compose">返现构成</string>
+    <string name="cb_detail_daily">每日返现</string>
+    <string name="cb_detail_base">基础返现 0.4%</string>
+    <string name="cb_detail_pay">支付加成 2%</string>
+    <string name="cb_detail_world">赏世界 2%</string>
+    <string name="cb_detail_dining">餐饮加成 3%</string>
+    <string name="cb_detail_net_spend">净签账</string>
+    <string name="cb_detail_orders">共 %d 笔</string>
+</resources>

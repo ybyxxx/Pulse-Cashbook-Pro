@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "version": "2026.11.1",
+  "updatedAt": "2026-11-10",
+  "baseRate": 0.004,
+  "diningThreshold": 1200,
+  "activities": [
+    {
+      "id": "pay_bonus",
+      "name": "支付加成 2%",
+      "type": "PAY_BONUS",
+      "rate": 0.02,
+      "startsOn": "2026-01-01",
+      "endsOn": "2026-12-31",
+      "capScope": "YEAR",
+      "capAmount": 80000,
+      "capLimitType": "SPEND",
+      "payMethods": ["applepay", "unionqr", "jumpunion"],
+      "confirmMethods": ["jumpunion"],
+      "requiresOptIn": false,
+      "enabled": true
+    },
+    {
+      "id": "shop_world",
+      "name": "赏世界 2%",
+      "type": "SHOP_WORLD",
+      "rate": 0.02,
+      "startsOn": "2026-01-01",
+      "endsOn": "2026-12-31",
+      "capScope": "YEAR",
+      "capAmount": 100000,
+      "capLimitType": "SPEND",
+      "payMethods": [],
+      "excludeMethods": ["alipaywechat"],
+      "confirmMethods": ["alipaywechat"],
+      "requiresOptIn": true,
+      "enabled": true
+    },
+    {
+      "id": "dining",
+      "name": "餐饮加码 3%",
+      "type": "DINING",
+      "rate": 0.03,
+      "startsOn": "2026-01-01",
+      "endsOn": "2026-12-31",
+      "capScope": "MONTH",
+      "capAmount": 80,
+      "capLimitType": "REBATE",
+      "minMonthlySpend": 1200,
+      "diningOnly": true,
+      "payMethods": [],
+      "requiresOptIn": false,
+      "enabled": true
+    }
+  ]
+}
