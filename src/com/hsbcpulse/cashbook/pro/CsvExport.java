@@ -18,7 +18,7 @@ import java.util.TimeZone;
 public final class CsvExport {
 
     public static final String APP_NAME = "Pulse 账本 Pro";
-    public static final String APP_VERSION = "2.1.1";
+    public static final String APP_VERSION = "2.2.0";
     /** Excel 识别 UTF-8 中文所需的 BOM。 */
     public static final String BOM = "\uFEFF";
 

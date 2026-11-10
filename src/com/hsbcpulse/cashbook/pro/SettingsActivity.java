@@ -63,6 +63,11 @@ public class SettingsActivity extends Activity {
             public void onClick(View v) { pickExportFormat(); }
         });
 
+        findViewById(R.id.row_restore).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { pickRestoreFile(); }
+        });
+
         tvRulesValue = findViewById(R.id.tv_rules_value);
         tvRulesValue.setText(rulesLabel());
         findViewById(R.id.row_rules).setOnClickListener(new View.OnClickListener() {
@@ -283,6 +288,11 @@ public class SettingsActivity extends Activity {
         android.net.Uri uri = data.getData();
         if (uri == null) return;
 
+        if (requestCode == ImportHelper.REQ_PICK_JSON) {
+            onRestoreFilePicked(uri);
+            return;
+        }
+
         String content;
         if (requestCode == ExportHelper.REQ_CSV) {
             content = ExportHelper.buildCsv(this);
@@ -299,5 +309,76 @@ public class SettingsActivity extends Activity {
         } else {
             Toast.makeText(this, getString(R.string.export_failed, err), Toast.LENGTH_LONG).show();
         }
+    }
+
+    // ---------- 数据恢复 ----------
+
+    private void pickRestoreFile() {
+        try {
+            startActivityForResult(ImportHelper.createIntent(), ImportHelper.REQ_PICK_JSON);
+        } catch (android.content.ActivityNotFoundException e) {
+            Toast.makeText(this, "没有可用的文件管理器", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /** 读文件 → 显示摘要 → 让用户选恢复方式。 */
+    private void onRestoreFilePicked(android.net.Uri uri) {
+        final ImportParser.Result result = ImportHelper.read(this, uri);
+        if (!result.ok) {
+            Toast.makeText(this, getString(R.string.restore_failed, result.error),
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        String extra = result.skipped > 0
+                ? getString(R.string.restore_extra, result.skipped) : "";
+        String cardName = result.cardName.isEmpty() ? "（未记录）" : result.cardName;
+        String summary = getString(R.string.restore_summary,
+                result.appVersion.isEmpty() ? "未知" : result.appVersion,
+                result.exportedAt.isEmpty() ? "未知" : result.exportedAt,
+                cardName, result.count(), extra);
+
+        final CharSequence[] modes = {
+                getString(R.string.restore_mode_merge),
+                getString(R.string.restore_mode_new),
+                getString(R.string.restore_mode_replace)
+        };
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.settings_restore)
+                .setMessage(summary)
+                .setItems(modes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == ImportHelper.MODE_REPLACE) {
+                            confirmReplace(result);
+                        } else {
+                            applyRestore(result, which);
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+    }
+
+    private void confirmReplace(final ImportParser.Result result) {
+        long cardId = Prefs.getCurrentCardId(this);
+        int existing = ImportHelper.countOrders(this, cardId);
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.restore_replace_title)
+                .setMessage(getString(R.string.restore_replace_msg, existing))
+                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        applyRestore(result, ImportHelper.MODE_REPLACE);
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+    }
+
+    private void applyRestore(ImportParser.Result result, int mode) {
+        long cardId = Prefs.getCurrentCardId(this);
+        String message = ImportHelper.apply(this, result, cardId, mode);
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 }

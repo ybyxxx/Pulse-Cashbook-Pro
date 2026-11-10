@@ -80,18 +80,33 @@
     <string name="export_done">已导出 %1$d 笔账单</string>
     <string name="export_failed">导出失败：%1$s</string>
     <string name="export_empty">还没有可导出的账单</string>
+    <string name="settings_restore">数据恢复</string>
+    <string name="settings_restore_sub">从 JSON 备份恢复账单，可合并或覆盖</string>
+    <string name="restore_failed">恢复失败：%1$s</string>
+    <string name="restore_empty">备份里没有可恢复的账单</string>
+    <string name="restore_done">已恢复 %1$d 笔账单</string>
+    <string name="restore_done_skip">已恢复 %1$d 笔，跳过重复 %2$d 笔</string>
+    <string name="restore_done_new">已恢复 %1$d 笔到新卡片「%2$s」</string>
+    <string name="restore_summary">备份版本：%1$s\n导出时间：%2$s\n来源卡片：%3$s\n账单笔数：%4$d 笔%5$s\n\n截图附件不在备份内，不会恢复。</string>
+    <string name="restore_extra">（另有 %1$d 条格式异常已跳过）</string>
+    <string name="restore_mode_title">选择恢复方式</string>
+    <string name="restore_mode_merge">合并到当前卡片（跳过重复）</string>
+    <string name="restore_mode_new">恢复为新卡片</string>
+    <string name="restore_mode_replace">覆盖当前卡片（清空后导入）</string>
+    <string name="restore_replace_title">覆盖当前卡片</string>
+    <string name="restore_replace_msg">当前卡片的 %1$d 笔账单将被删除且无法恢复，确定继续？</string>
     <string name="theme_picker_title">选择主题颜色</string>
 
     <!-- 关于 -->
-    <string name="about_version">版本 2.1.1（build 22）· Pro 分支</string>
+    <string name="about_version">版本 2.2.0（build 23）· Pro 分支</string>
     <string name="about_intro_title">应用简介</string>
     <string name="about_intro">汇丰 Pulse 信用卡返现记账工具（Pro 分支）。在主线版本基础上支持多卡片独立记账，并新增账单导出。记录每笔消费的金额、支付方式与截图附件，自动估算可享返现，帮助你掌握当月消费进度与奖励加成。所有数据仅保存在本机，无需联网。</string>
     <string name="about_features_title">主要功能</string>
-    <string name="about_features">· 多卡片记账：每张卡独立的账单、迎新窗口与年度额度，主页一键切换\n· 规则服务端下发：活动费率、额度、有效期由服务端规则决定，新增活动无需更新 App\n· 账单导出：CSV 表格（Excel / WPS 打开）与 JSON 备份，走系统文件选择器免权限\n· 订单记账：备注、金额（HKD / CNY 1:1）、截图附件、部分退款\n· 返现自动计算：基础返现 + 各项活动加成（含年度/月度额度）\n· 返现明细图表：构成环图、每日返现柱状图\n· 当月消费与返现统计、餐饮门槛进度\n· 快捷选择按钮（美团 / 拼多多 / 自定义）\n· 卡片信息加密备份（指纹保护）</string>
+    <string name="about_features">· 多卡片记账：每张卡独立的账单、迎新窗口与年度额度，主页一键切换\n· 规则服务端下发：活动费率、额度、有效期由服务端规则决定，新增活动无需更新 App\n· 账单导出：CSV 表格（Excel / WPS 打开）与 JSON 备份，走系统文件选择器免权限\n· 数据恢复：从 JSON 备份导入，支持合并去重 / 恢复为新卡片 / 覆盖当前卡片\n· 订单记账：备注、金额（HKD / CNY 1:1）、截图附件、部分退款\n· 返现自动计算：基础返现 + 各项活动加成（含年度/月度额度）\n· 返现明细图表：构成环图、每日返现柱状图\n· 当月消费与返现统计、餐饮门槛进度\n· 快捷选择按钮（美团 / 拼多多 / 自定义）\n· 卡片信息加密备份（指纹保护）</string>
     <string name="about_changelog_title">更新日志</string>
     <string name="changelog_collapsed">展开 ▾</string>
     <string name="changelog_expanded">收起 ▴</string>
-    <string name="about_changelog">v2.1.1\n· 默认规则地址指向项目仓库的 rules.json，安装后自动同步最新活动\n· 同步失败或规则非法时自动沿用缓存/内置规则，不影响记账\n\nv2.1.0\n· 返现规则改为服务端下发：费率、额度、有效期全部由规则文件决定，新增活动无需更新 App\n· 支持提前下发未开始的活动：到期自动生效，过期自动失效\n· 内置默认规则兜底：断网、首次启动时照常计算\n· 设置页新增「返现规则」：查看规则版本与来源、手动检查更新\n· 更新日志改为点击展开\n· 修复 v1.5.0 条目未换行的问题\n\nv2.0.0（Pro 分支）\n· 多卡片支持：新增卡片管理（新增 / 重命名 / 下卡日期 / 删除），每卡独立账单与额度\n· 新增账单导出：CSV 表格与 JSON 备份，免存储权限\n· 性能优化：年度返现批量计算加缓存，统计不再重复计算；查询跳过不必要的附件读取\n· 修复卡片信息备份中 CVV 与有效期回填位置颠倒的问题\n\nv1.5.0\n· 返现规则：赏世界限前 100,000 元消费（最高 $2,000），支付加成限前 80,000 元消费\n· 支付宝/微信默认不参与赏世界，可自行确认\n· 记一笔界面标题真正居中\n· 备注框下方快捷按钮（美团、拼多多、自定义）\n· 关于页新增更新日志\n\nv1.4.3\n· 修复未滑动误触删除按钮的问题\n\nv1.4.2\n· 修复列表行圆角漏出删除按钮红角\n· 修复滑动时误弹删除确认弹窗\n· 修复明细页条形图显示异常（改回环形图）\n\nv1.4.1\n· 明细页顶部留白修复\n· 构成图改用高对比配色\n· 滑动删除改自右向左滑出按钮\n· 迎新进度条优化\n\nv1.4.0\n· 支付方式合并为 5 项\n· 微信支付宝不计入迎新签账\n· 部分退款功能\n· 滑动删除 + 撤销\n· 迎新详情美化\n· 返现明细页（环图 + 柱图）\n\nv1.3.1\n· 迎新规则修正：基础 8,000 返 $800，28 次 QR 加码叠加\n\nv1.3.0\n· 主列表按日归类显示\n· 下卡日期录入\n· 迎新活动 60 日窗口追踪\n\nv1.2.1\n· 修复主题多选 bug\n· 修复小米/澎湃OS 指纹界面闪退\n\nv1.2.0\n· 月份选择器\n· 设置页（主题颜色、关于）\n· 卡片信息备份（指纹保护）\n\nv1.1.0\n· 支付方式 7 选 1\n· 赏世界年度全局开关\n· 默认 CNY\n\nv1.0.0\n· 基础记账、返现计算、月度统计</string>
+    <string name="about_changelog">v2.2.0\n· 新增数据恢复：从 JSON 备份导入账单\n· 三种恢复方式：合并到当前卡片（自动去重）/ 恢复为新卡片 / 覆盖当前卡片（二次确认）\n· 恢复前展示备份摘要，脏数据逐条跳过，写入走单事务\n· 截图附件不在备份内，恢复后需重新添加\n\nv2.1.1\n· 默认规则地址指向项目仓库的 rules.json，安装后自动同步最新活动\n· 同步失败或规则非法时自动沿用缓存/内置规则，不影响记账\n\nv2.1.0\n· 返现规则改为服务端下发：费率、额度、有效期全部由规则文件决定，新增活动无需更新 App\n· 支持提前下发未开始的活动：到期自动生效，过期自动失效\n· 内置默认规则兜底：断网、首次启动时照常计算\n· 设置页新增「返现规则」：查看规则版本与来源、手动检查更新\n· 更新日志改为点击展开\n· 修复 v1.5.0 条目未换行的问题\n\nv2.0.0（Pro 分支）\n· 多卡片支持：新增卡片管理（新增 / 重命名 / 下卡日期 / 删除），每卡独立账单与额度\n· 新增账单导出：CSV 表格与 JSON 备份，免存储权限\n· 性能优化：年度返现批量计算加缓存，统计不再重复计算；查询跳过不必要的附件读取\n· 修复卡片信息备份中 CVV 与有效期回填位置颠倒的问题\n\nv1.5.0\n· 返现规则：赏世界限前 100,000 元消费（最高 $2,000），支付加成限前 80,000 元消费\n· 支付宝/微信默认不参与赏世界，可自行确认\n· 记一笔界面标题真正居中\n· 备注框下方快捷按钮（美团、拼多多、自定义）\n· 关于页新增更新日志\n\nv1.4.3\n· 修复未滑动误触删除按钮的问题\n\nv1.4.2\n· 修复列表行圆角漏出删除按钮红角\n· 修复滑动时误弹删除确认弹窗\n· 修复明细页条形图显示异常（改回环形图）\n\nv1.4.1\n· 明细页顶部留白修复\n· 构成图改用高对比配色\n· 滑动删除改自右向左滑出按钮\n· 迎新进度条优化\n\nv1.4.0\n· 支付方式合并为 5 项\n· 微信支付宝不计入迎新签账\n· 部分退款功能\n· 滑动删除 + 撤销\n· 迎新详情美化\n· 返现明细页（环图 + 柱图）\n\nv1.3.1\n· 迎新规则修正：基础 8,000 返 $800，28 次 QR 加码叠加\n\nv1.3.0\n· 主列表按日归类显示\n· 下卡日期录入\n· 迎新活动 60 日窗口追踪\n\nv1.2.1\n· 修复主题多选 bug\n· 修复小米/澎湃OS 指纹界面闪退\n\nv1.2.0\n· 月份选择器\n· 设置页（主题颜色、关于）\n· 卡片信息备份（指纹保护）\n\nv1.1.0\n· 支付方式 7 选 1\n· 赏世界年度全局开关\n· 默认 CNY\n\nv1.0.0\n· 基础记账、返现计算、月度统计</string>
     <string name="about_disclaimer_title">免责声明</string>
     <string name="about_disclaimer">本工具所示返现金额为估算值，具体以银行实际入账为准。卡片信息使用系统密钥库加密后仅存于本机，不上传任何服务器；请勿在越狱/ROOT 设备上存储敏感信息。开发者不对因使用本工具产生的任何损失负责。</string>
     <string name="about_meta">开发者信息：待完善\n反馈与建议：待完善\n© 2026 Pulse 账本 Pro（分支版本）</string>

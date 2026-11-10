@@ -1,25 +1,25 @@
 # PulseCashbook Pro — 工程交接文档（分支）
 
 > 汇丰 Pulse 信用卡返现记账 Android 应用 —— **Pro 分支**。本地记账 + 规则服务端下发。
-> 当前版本 v2.1.1（build 22） · minSdk 26 / targetSdk 35 · 包名 `com.hsbcpulse.cashbook.pro`
+> 当前版本 v2.2.0（build 23） · minSdk 26 / targetSdk 35 · 包名 `com.hsbcpulse.cashbook.pro`
 >
 > **与主线的关系**：本目录是从主线 `PulseCashbook/`（v1.5.0 / build 9）完整复制的独立分支，
 > 改包名后可与主线 APK 同时安装、数据互不干扰。主线不因分支改动而变更。
 
 ## 〇、分支相对主线的差异
 
-| 项 | 主线 v1.5.0 | 分支 v2.1.1 |
+| 项 | 主线 v1.5.0 | 分支 v2.2.0 |
 |---|---|---|
 | 包名 | `com.hsbcpulse.cashbook` | `com.hsbcpulse.cashbook.pro` |
 | 应用名 | Pulse 返现记账 | Pulse 账本 Pro |
-| 版本 | 1.5.0 / build 9 | 2.1.1 / build 22 |
+| 版本 | 1.5.0 / build 9 | 2.2.0 / build 23 |
 | 数据库 | v3（orders + attachments） | **v4**（+ cards 表，orders.card_id） |
 | 多卡片 | 不支持（单卡） | **支持**：卡片增删改、主页切换、按卡隔离账单/迎新/额度 |
 | 导出 | 无 | **CSV + JSON**（ACTION_CREATE_DOCUMENT，免权限） |
 | 返现规则 | 写死在 `Cashback` 里 | **规则集驱动**：`RuleSet`/`RewardActivity`/`RuleEngine`，服务端下发 + 内置兜底 |
 | 网络 | 无 | 仅 HTTPS GET 拉规则（`RulesStore`），不上传任何数据 |
 | 统计性能 | 每次刷新重复 computeYear + 逐单查附件 | **年度结果缓存 + 轻量查询** |
-| 测试 | LogicTest 56 + WelcomeTest 24 | 上述 80 项 + ExportTest 28 + RuleEngineTest 50 + **RulesFileTest 39** |
+| 测试 | LogicTest 56 + WelcomeTest 24 | 上述 80 项 + ExportTest 28 + RuleEngineTest 50 + RulesFileTest 39 + **ImportTest 35** |
 | 产物 | `PulseCashbook.apk` | `PulseCashbookPro.apk` |
 
 ## 一、架构总览
@@ -36,6 +36,8 @@ PulseCashbook-New/
 │   ├── CardsActivity.java       # 【新增】卡片管理：增删改、设下卡日期、切换当前卡
 │   ├── Card.java                # 【新增】卡片模型
 │   ├── ExportHelper.java        # 【新增】导出（Android 侧：SAF 选择器 + 写文件）
+│   ├── ImportHelper.java        # 【新增】恢复（SAF 选择器 + 读流 + 落库 + 去重）
+│   ├── ImportParser.java        # 【新增】JSON 备份解析与逐行校验（纯 JVM）
 │   ├── CsvExport.java           # 【新增】CSV/JSON 内容生成（纯 JVM 可测）
 │   ├── Welcome.java             # 迎新活动纯逻辑引擎（60日窗口/8000签账/QR加码）
 │   ├── Cashback.java            # 返现门面（保留旧 API，内部委托 RuleEngine）
@@ -66,7 +68,8 @@ PulseCashbook-New/
     ├── WelcomeTest.java         # 迎新引擎测试（24项）
     ├── ExportTest.java          # 导出格式测试（28项）
     ├── RuleEngineTest.java      # 规则引擎测试（50项：生效期/额度/脏数据/注入）
-    └── RulesFileTest.java       # 仓库 rules.json 校验（39项：可解析 + 与内置口径逐字段一致）
+    ├── RulesFileTest.java       # 仓库 rules.json 校验（39项：可解析 + 与内置口径逐字段一致）
+    └── ImportTest.java          # 恢复测试（35项：往返一致 / 脏数据跳过 / 去重键）
 ```
 
 ## 二、技术栈
@@ -104,12 +107,14 @@ $JDK/bin/javac.exe -encoding UTF-8 --release 11 \
   src/com/hsbcpulse/cashbook/pro/RewardActivity.java \
   src/com/hsbcpulse/cashbook/pro/RuleEngine.java \
   src/com/hsbcpulse/cashbook/pro/MiniJson.java \
-  test/LogicTest.java test/WelcomeTest.java test/ExportTest.java test/RuleEngineTest.java test/RulesFileTest.java
+  src/com/hsbcpulse/cashbook/pro/ImportParser.java \
+  test/LogicTest.java test/WelcomeTest.java test/ExportTest.java test/RuleEngineTest.java test/RulesFileTest.java test/ImportTest.java
 $JDK/bin/java.exe -cp build/test-classes LogicTest
 $JDK/bin/java.exe -cp build/test-classes WelcomeTest
 $JDK/bin/java.exe -cp build/test-classes ExportTest
 $JDK/bin/java.exe -cp build/test-classes RuleEngineTest
 $JDK/bin/java.exe -cp build/test-classes RulesFileTest   # 需在项目根目录运行
+$JDK/bin/java.exe -cp build/test-classes ImportTest
 
 # 验证 APK 版本
 TC="C:/Users/GAFA2279/WorkBuddy/2026-11-09-12-47-17/android-toolchain"
@@ -152,6 +157,12 @@ $TC/sdk/build-tools/35.0.0/aapt2.exe dump badging PulseCashbookPro.apk | head -3
     - 服务端返回脏数据一律整份丢弃（`RuleSet.validate` 抛异常），继续用旧规则，绝不让错误规则参与计算。
     - 规则 JSON 格式见 `docs/rules-schema.md`，改动格式必须提升 `schemaVersion`。
     - 网络仅用于 HTTPS GET 规则文件；**不得**上传任何本地数据（账单、卡号、设备信息）。
+13. **数据恢复（v2.2.0 新增）**：
+    - 只认 `CsvExport.toJson` 产出的 JSON 备份；CSV 是给人看/分析用的，不做导入。
+    - 解析放 `ImportParser`（纯 JVM），Android 侧 `ImportHelper` 只做读流/落库/文案。
+    - 去重键见 `ImportParser.key()`（日期+金额+创建时间）。**改动导出字段时同步改这里**，否则重复导入会翻倍。
+    - 批量写入必须走 `insertOrders()` 的单事务；覆盖模式先 `clearOrders()` 并清理附件文件，需二次确认。
+    - 备份不含截图附件（路径是本机私有的），恢复后附件为空是预期行为，不要试图从备份还原图片。
 
 ## 五、明确禁止事项
 

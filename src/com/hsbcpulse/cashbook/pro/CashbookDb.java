@@ -160,6 +160,63 @@ public class CashbookDb extends SQLiteOpenHelper {
         REVISION.incrementAndGet();
     }
 
+    /**
+     * 批量插入（数据恢复用），单事务提交：要么全进，要么全不进。
+     *
+     * @return 实际插入条数
+     */
+    public int insertOrders(List<Order> orders) {
+        if (orders == null || orders.isEmpty()) return 0;
+        SQLiteDatabase db = getWritableDatabase();
+        int n = 0;
+        db.beginTransaction();
+        try {
+            for (Order o : orders) {
+                ContentValues cv = orderValues(o);
+                cv.put("created_at", o.createdAt > 0 ? o.createdAt : System.currentTimeMillis());
+                if (db.insert("orders", null, cv) > 0) n++;
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+        if (n > 0) REVISION.incrementAndGet();
+        return n;
+    }
+
+    /** 清空某张卡的全部账单（保留卡片本身），返回需清理的附件文件路径。 */
+    public List<String> clearOrders(long cardId) {
+        SQLiteDatabase db = getWritableDatabase();
+        List<String> paths = new ArrayList<>();
+        Cursor c = db.rawQuery("SELECT a.path FROM attachments a JOIN orders o ON o._id=a.order_id " +
+                "WHERE o.card_id=?", new String[]{String.valueOf(cardId)});
+        try {
+            while (c.moveToNext()) paths.add(c.getString(0));
+        } finally {
+            c.close();
+        }
+        db.delete("attachments", "order_id IN (SELECT _id FROM orders WHERE card_id=?)",
+                new String[]{String.valueOf(cardId)});
+        db.delete("orders", "card_id=?", new String[]{String.valueOf(cardId)});
+        REVISION.incrementAndGet();
+        return paths;
+    }
+
+    /** 订单字段 → ContentValues（不含 _id / created_at，由调用方决定）。 */
+    private ContentValues orderValues(Order o) {
+        ContentValues cv = new ContentValues();
+        cv.put("date", o.date);
+        cv.put("amount", o.amount);
+        cv.put("refund_amount", o.refundAmount);
+        cv.put("currency", o.currency);
+        cv.put("note", o.note);
+        cv.put("pay_method", o.payMethod == null ? "" : o.payMethod);
+        cv.put("pay_confirmed", o.payConfirmed ? 1 : 0);
+        cv.put("dining", o.dining ? 1 : 0);
+        cv.put("card_id", o.cardId > 0 ? o.cardId : 1);
+        return cv;
+    }
+
     // ---------- 改 ----------
 
     public int updateOrder(Order o) {
