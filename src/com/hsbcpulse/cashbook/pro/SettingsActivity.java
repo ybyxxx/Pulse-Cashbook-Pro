@@ -321,7 +321,7 @@ public class SettingsActivity extends Activity {
         }
     }
 
-    /** 读文件 → 显示摘要 → 让用户选恢复方式。 */
+    /** 读文件 → 显示摘要 → 选恢复方式 → 确认执行。 */
     private void onRestoreFilePicked(android.net.Uri uri) {
         final ImportParser.Result result = ImportHelper.read(this, uri);
         if (!result.ok) {
@@ -338,21 +338,56 @@ public class SettingsActivity extends Activity {
                 result.exportedAt.isEmpty() ? "未知" : result.exportedAt,
                 cardName, result.count(), extra);
 
-        final CharSequence[] modes = {
+        // 注意：AlertDialog 同时 setMessage + setItems 时列表会被 message 顶掉（只剩按钮），
+        // 所以这里用自定义视图：摘要 + 单选 + 明确的「开始恢复」。
+        int pad = dp(20);
+        LinearLayout box = new LinearLayout(this);
+        box.setOrientation(LinearLayout.VERTICAL);
+        box.setPadding(pad, dp(12), pad, dp(4));
+
+        TextView tvSummary = new TextView(this);
+        tvSummary.setText(summary);
+        tvSummary.setTextSize(13);
+        tvSummary.setTextColor(0xFF666666);
+        tvSummary.setLineSpacing(dp(2), 1f);
+        box.addView(tvSummary);
+
+        TextView tvModeTitle = new TextView(this);
+        tvModeTitle.setText(R.string.restore_mode_title);
+        tvModeTitle.setTextSize(13);
+        tvModeTitle.setTextColor(0xFF1A1A1A);
+        tvModeTitle.setPadding(0, dp(14), 0, dp(2));
+        box.addView(tvModeTitle);
+
+        final android.widget.RadioGroup group = new android.widget.RadioGroup(this);
+        group.setOrientation(android.widget.RadioGroup.VERTICAL);
+        String[] labels = {
                 getString(R.string.restore_mode_merge),
                 getString(R.string.restore_mode_new),
                 getString(R.string.restore_mode_replace)
         };
+        for (int i = 0; i < labels.length; i++) {
+            android.widget.RadioButton rb = new android.widget.RadioButton(this);
+            rb.setId(1000 + i);
+            rb.setText(labels[i]);
+            rb.setTextSize(14);
+            rb.setPadding(0, dp(6), 0, dp(6));
+            group.addView(rb);
+        }
+        group.check(1000); // 默认「合并到当前卡片」，最安全
+        box.addView(group);
+
         new AlertDialog.Builder(this)
                 .setTitle(R.string.settings_restore)
-                .setMessage(summary)
-                .setItems(modes, new DialogInterface.OnClickListener() {
+                .setView(box)
+                .setPositiveButton(R.string.restore_confirm, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (which == ImportHelper.MODE_REPLACE) {
+                        int mode = group.getCheckedRadioButtonId() - 1000;
+                        if (mode == ImportHelper.MODE_REPLACE) {
                             confirmReplace(result);
                         } else {
-                            applyRestore(result, which);
+                            applyRestore(result, mode);
                         }
                     }
                 })

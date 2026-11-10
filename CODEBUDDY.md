@@ -1,18 +1,18 @@
 # PulseCashbook Pro — 工程交接文档（分支）
 
 > 汇丰 Pulse 信用卡返现记账 Android 应用 —— **Pro 分支**。本地记账 + 规则服务端下发。
-> 当前版本 v2.2.0（build 23） · minSdk 26 / targetSdk 35 · 包名 `com.hsbcpulse.cashbook.pro`
+> 当前版本 v2.2.1（build 24） · minSdk 26 / targetSdk 35 · 包名 `com.hsbcpulse.cashbook.pro`
 >
 > **与主线的关系**：本目录是从主线 `PulseCashbook/`（v1.5.0 / build 9）完整复制的独立分支，
 > 改包名后可与主线 APK 同时安装、数据互不干扰。主线不因分支改动而变更。
 
 ## 〇、分支相对主线的差异
 
-| 项 | 主线 v1.5.0 | 分支 v2.2.0 |
+| 项 | 主线 v1.5.0 | 分支 v2.2.1 |
 |---|---|---|
 | 包名 | `com.hsbcpulse.cashbook` | `com.hsbcpulse.cashbook.pro` |
 | 应用名 | Pulse 返现记账 | Pulse 账本 Pro |
-| 版本 | 1.5.0 / build 9 | 2.2.0 / build 23 |
+| 版本 | 1.5.0 / build 9 | 2.2.1 / build 24 |
 | 数据库 | v3（orders + attachments） | **v4**（+ cards 表，orders.card_id） |
 | 多卡片 | 不支持（单卡） | **支持**：卡片增删改、主页切换、按卡隔离账单/迎新/额度 |
 | 导出 | 无 | **CSV + JSON**（ACTION_CREATE_DOCUMENT，免权限） |
@@ -163,6 +163,12 @@ $TC/sdk/build-tools/35.0.0/aapt2.exe dump badging PulseCashbookPro.apk | head -3
     - 去重键见 `ImportParser.key()`（日期+金额+创建时间）。**改动导出字段时同步改这里**，否则重复导入会翻倍。
     - 批量写入必须走 `insertOrders()` 的单事务；覆盖模式先 `clearOrders()` 并清理附件文件，需二次确认。
     - 备份不含截图附件（路径是本机私有的），恢复后附件为空是预期行为，不要试图从备份还原图片。
+14. **AlertDialog 陷阱（v2.2.1 踩过）**：
+    - `setMessage()` 与 `setItems()` **不能同时用**——列表会被 message 顶掉，界面只剩按钮（恢复功能曾因此在真机上不可用）。
+    - 需要「说明 + 多选一 + 确认」时，用 `setView()` 自定义视图（TextView + RadioGroup）+ `setPositiveButton()`，
+      或拆成两步对话框；不要在同一个 Builder 上混用 message/items。
+    - 有破坏性的选项（覆盖恢复、删除）必须走独立二次确认，不要在列表里点一下就直接执行。
+
 
 ## 五、明确禁止事项
 
