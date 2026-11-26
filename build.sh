@@ -28,8 +28,8 @@ echo "== 2/7 aapt2 link =="
   --java "$OUT/gen" \
   --min-sdk-version 26 \
   --target-sdk-version 35 \
-  --version-code 24 \
-  --version-name 2.2.1 \
+  --version-code 25 \
+  --version-name 2.2.2 \
   --auto-add-overlay \
   "$OUT/compiled"/*.flat
 

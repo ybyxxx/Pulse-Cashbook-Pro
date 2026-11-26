@@ -1,18 +1,18 @@
 # PulseCashbook Pro — 工程交接文档（分支）
 
 > 汇丰 Pulse 信用卡返现记账 Android 应用 —— **Pro 分支**。本地记账 + 规则服务端下发。
-> 当前版本 v2.2.1（build 24） · minSdk 26 / targetSdk 35 · 包名 `com.hsbcpulse.cashbook.pro`
+> 当前版本 v2.2.2（build 25） · minSdk 26 / targetSdk 35 · 包名 `com.hsbcpulse.cashbook.pro`
 >
 > **与主线的关系**：本目录是从主线 `PulseCashbook/`（v1.5.0 / build 9）完整复制的独立分支，
 > 改包名后可与主线 APK 同时安装、数据互不干扰。主线不因分支改动而变更。
 
 ## 〇、分支相对主线的差异
 
-| 项 | 主线 v1.5.0 | 分支 v2.2.1 |
+| 项 | 主线 v1.5.0 | 分支 v2.2.2 |
 |---|---|---|
 | 包名 | `com.hsbcpulse.cashbook` | `com.hsbcpulse.cashbook.pro` |
 | 应用名 | Pulse 返现记账 | Pulse 账本 Pro |
-| 版本 | 1.5.0 / build 9 | 2.2.1 / build 24 |
+| 版本 | 1.5.0 / build 9 | 2.2.2 / build 25 |
 | 数据库 | v3（orders + attachments） | **v4**（+ cards 表，orders.card_id） |
 | 多卡片 | 不支持（单卡） | **支持**：卡片增删改、主页切换、按卡隔离账单/迎新/额度 |
 | 导出 | 无 | **CSV + JSON**（ACTION_CREATE_DOCUMENT，免权限） |
