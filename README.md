@@ -6,6 +6,11 @@
 - 纯 Java + 系统控件，无 Gradle、无 AndroidX、无第三方依赖
 - 数据只存本机 SQLite / SharedPreferences，联网仅用于拉取规则 JSON
 
+## 下载
+
+最新安装包见 [Releases](https://github.com/ybyxxx/Pulse-Cashbook-Pro/releases/latest)，文件名 `PulseCashbookPro-v<版本>.apk`。
+Android 8.0+，debug 签名（个人自用构建）；与主线版本包名不同，可共存安装。
+
 ## 功能
 
 - **多卡片**：每张卡独立的账单、迎新窗口与年度额度，主页一键切换

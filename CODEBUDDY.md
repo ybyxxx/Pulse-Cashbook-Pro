@@ -116,6 +116,9 @@ $JDK/bin/java.exe -cp build/test-classes RuleEngineTest
 $JDK/bin/java.exe -cp build/test-classes RulesFileTest   # 需在项目根目录运行
 $JDK/bin/java.exe -cp build/test-classes ImportTest
 
+# 发布 APK 到 GitHub Release（需要 PAT，脚本在工作空间根）
+python release_github.py .gh-token.txt
+
 # 验证 APK 版本
 TC="C:/Users/GAFA2279/WorkBuddy/2026-11-09-12-47-17/android-toolchain"
 $TC/sdk/build-tools/35.0.0/aapt2.exe dump badging PulseCashbookPro.apk | head -3
@@ -168,6 +171,11 @@ $TC/sdk/build-tools/35.0.0/aapt2.exe dump badging PulseCashbookPro.apk | head -3
     - 需要「说明 + 多选一 + 确认」时，用 `setView()` 自定义视图（TextView + RadioGroup）+ `setPositiveButton()`，
       或拆成两步对话框；不要在同一个 Builder 上混用 message/items。
     - 有破坏性的选项（覆盖恢复、删除）必须走独立二次确认，不要在列表里点一下就直接执行。
+15. **发布（v2.2.2 起）**：
+    - **APK 不进 git**（`.gitignore` 已排除）。安装包走 GitHub Release 资产，标签 `v<versionName>`，
+      同一版本重复发布会先删旧资产再上传。
+    - 推送代码用 `push_github.py`，发布安装包用 `release_github.py`，两者都读 `.gh-token.txt`（工作空间根，仓库外）。
+    - 发布说明取自 `strings.xml` 中 `about_changelog` 的最新一版，所以**更新日志要写清楚**。
 
 
 ## 五、明确禁止事项
